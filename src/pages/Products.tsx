@@ -86,7 +86,7 @@ const productData = [
     rating: 4.8,
     image: "https://img.dbhostings.com/uploads/682780402796d.jpg",
     category: "Minecraft",
-    subcategory: "Server Setups",
+    subcategory: "Plugins",
     bybitUrl: "https://builtbybit.com/resources/easy-singlebiome-crystal-pvp.62332/",
     visible: true
   },
