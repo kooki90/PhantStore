@@ -471,8 +471,7 @@ const Products = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {allVisibleProducts.map((product, index) => (
                       <div 
-                        key={product.i
-d} 
+                        key={product.id} 
                         className="animate-fade-in" 
                         style={{ animationDelay: `${index * 50}ms` }}
                       >
