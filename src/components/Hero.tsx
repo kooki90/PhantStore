@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Bot, ShieldCheck, Zap } from 'lucide-react';
@@ -45,14 +44,14 @@ const Hero = () => {
           <div className="relative mb-4 animate-float">
             <div className="w-20 h-20 rounded-full bg-gradient-to-r from-phant-blue/20 to-phant-neon-blue/20 absolute inset-0 blur-lg"></div>
             <div className="w-20 h-20 rounded-full bg-phant-dark-blue relative flex items-center justify-center border border-phant-blue/30">
-              <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-phant-blue to-phant-neon-blue">P</span>
+              <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-phant-blue to-phant-neon-blue">L</span>
             </div>
           </div>
           
           {/* Brand name with animated text reveal */}
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 animate-fade-in">
-            <span className="text-white">Phant</span>
-            <span className="text-gradient">Development</span>
+            <span className="text-white">LightX</span>
+            <span className="text-gradient">Studio</span>
           </h1>
           
           {/* Tagline with typing effect */}

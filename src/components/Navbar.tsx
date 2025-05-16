@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'lucide-react';
@@ -20,7 +19,7 @@ const Navbar = () => {
   return (
     <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
       <div className="container py-4 px-4 mx-auto flex items-center justify-between">
-        <Link to="/" className="font-bold text-2xl">PhantDev</Link>
+        <Link to="/" className="font-bold text-2xl">LightXStudio</Link>
 
         <div className="hidden md:flex items-center space-x-6">
           <nav className="flex items-center space-x-6">
@@ -45,7 +44,7 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent side="right">
             <div className="grid gap-4 py-4">
-              <Link to="/" className="font-bold text-2xl">PhantDev</Link>
+              <Link to="/" className="font-bold text-2xl">LightXStudio</Link>
               <div className="flex flex-col space-y-2">
                 {navLinks.map((link) => (
                   <Link 

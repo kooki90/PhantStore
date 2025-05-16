@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -9,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-bold text-lg mb-4">PhantDev</h3>
+            <h3 className="font-bold text-lg mb-4">LightXStudio</h3>
             <p className="text-sm text-muted-foreground">
               Your premium marketplace for minecraft and roblox assets.
             </p>
@@ -57,7 +56,7 @@ const Footer = () => {
         
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} PhantDev. All rights reserved.
+            © {currentYear} LightXStudio. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground mt-4 md:mt-0">
             Designed with ❤️ for developers
@@ -69,5 +68,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-// ed2d66c3726158affb93550b0ec274c2
