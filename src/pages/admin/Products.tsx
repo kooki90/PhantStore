@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Table, 
@@ -48,7 +47,7 @@ const initialProducts: Product[] = [
     category: "Minecraft",
     subcategory: "Skripts",
     badge: "Best Seller",
-    bybitUrl: "https://builtbybit.com/resources/info-moderation-chat-skript.63611/"
+    bybitUrl: "https://builtbybit.com/resources/info-moderation-chat-skript.63611/",
     visible: true
   },
   {
