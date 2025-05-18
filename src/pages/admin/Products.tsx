@@ -130,12 +130,30 @@ const Products = () => {
     setIsEditDialogOpen(true);
   };
 
-  const handleDeleteProduct = (id: string) => {
-    setProducts(products.filter(product => product.id !== id));
-    toast({
-      title: "Product deleted",
-      description: "The product has been deleted successfully."
-    });
+  const handleDeleteProduct = async (id: string) => {
+    try {
+      // API call to delete product
+      const response = await fetch(`/api/products/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setProducts(products.filter(product => product.id !== id));
+        toast({
+          title: "Product deleted",
+          description: "The product has been deleted successfully."
+        });
+      } else {
+        throw new Error('Failed to delete product');
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete product. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleSaveProduct = (e: React.FormEvent) => {
