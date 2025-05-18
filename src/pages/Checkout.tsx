@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreditCard, AlertTriangle } from 'lucide-react';
@@ -8,15 +7,6 @@ import OrderSummary from '@/components/checkout/OrderSummary';
 import PaymentMethods from '@/components/checkout/PaymentMethods';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/hooks/use-toast';
-
-// Helper function ed2d66c3726158affb93550b0ec274c2 to generate a random license key
-const generateLicenseKey = (productCategory: string) => {
-  const prefix = productCategory.split(' ')[0].substring(0, 5).toUpperCase();
-  const segments = Array(4).fill(0).map(() => 
-    Math.random().toString(36).substring(2, 6).toUpperCase()
-  );
-  return `${prefix}-${segments.join('-')}`;
-};
 
 const Checkout = () => {
   const { cartItems, cartTotal, clearCart } = useCart();
@@ -100,40 +90,33 @@ const Checkout = () => {
     setIsProcessing(true);
 
     try {
-      // Simulate payment processing using %%__NONCE__%%
-      // In a real implementation, this would call the respective payment gateway API [API - %%__NONCE__%%]
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Generate license keys for digital products
-      const licenseKeys = cartItems.map(item => ({
-        productId: item.id,
-        productName: item.title,
-        licenseKey: generateLicenseKey(item.category),
-        activationLimit: 3,
-        expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) // 1 year expiration
-      }));
-      
-      // In a real implementation, these would be saved to a database
-      console.log('Generated license keys:', licenseKeys);
-      
-      // Simulate sending order to Discord webhook
-      console.log('Sending webhook with order data:', {
-        items: cartItems,
-        total: cartTotal,
-        paymentMethod: selectedPaymentMethod,
-        customer: billingDetails,
-        licenseKeys
+      // Process payment with Stripe
+      const response = await fetch('/api/create-payment-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: cartTotal * 100, // Convert to cents
+          currency: 'usd',
+          payment_method: selectedPaymentMethod,
+          billing_details: billingDetails,
+        }),
       });
-      
-      // Clear cart and redirect to success page
-      clearCart();
-      toast({
-        title: "Payment successful!",
-        description: "Thank you for your purchase. Your license keys are now available.",
-      });
-      
-      // Redirect to licenses page instead of homepage
-      navigate('/licenses');
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Clear cart and redirect to success page
+        clearCart();
+        toast({
+          title: "Payment successful!",
+          description: "Thank you for your purchase. Your order has been confirmed.",
+        });
+        navigate('/orders');
+      } else {
+        throw new Error(data.error || 'Payment failed');
+      }
     } catch (error) {
       console.error("Payment processing error:", error);
       toast({

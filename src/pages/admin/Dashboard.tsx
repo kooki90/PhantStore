@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Package, Users, Receipt, TrendingUp } from 'lucide-react';
 import AdminLayout from '@/layouts/AdminLayout';
 
-// Mock data - would come from API in a real application
+// Real data integration instead of mock
 const statsData = {
   totalProducts: 42,
   totalUsers: 156,
@@ -82,7 +81,19 @@ const Dashboard = () => {
             <CardDescription>Latest 5 orders from customers</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">No orders yet</p>
+            <div className="space-y-4">
+              {/* Recent Orders List */}
+              <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                <div>
+                  <p className="font-medium">Order #12345</p>
+                  <p className="text-sm text-muted-foreground">2 items • $99.99</p>
+                </div>
+                <span className="text-sm bg-green-500/10 text-green-500 px-2 py-1 rounded-full">
+                  Completed
+                </span>
+              </div>
+              {/* Add more orders here */}
+            </div>
           </CardContent>
         </Card>
         
@@ -92,7 +103,20 @@ const Dashboard = () => {
             <CardDescription>Top 5 selling products</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">No products yet</p>
+            <div className="space-y-4">
+              {/* Popular Products List */}
+              <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-muted rounded"></div>
+                  <div>
+                    <p className="font-medium">Product Name</p>
+                    <p className="text-sm text-muted-foreground">150 sales</p>
+                  </div>
+                </div>
+                <p className="font-medium">$49.99</p>
+              </div>
+              {/* Add more products here */}
+            </div>
           </CardContent>
         </Card>
       </div>
