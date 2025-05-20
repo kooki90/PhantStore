@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
@@ -38,30 +37,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check if user is logged in on initial load
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('phantToken');
-      if (token) {
+      const storedUser = localStorage.getItem('phantUser');
+      
+      if (token && storedUser) {
         try {
-          validateTokenAndSetUser(token);
+          const userData = JSON.parse(storedUser);
+          setUser(userData);
         } catch (error) {
-          console.error('Error validating token:', error);
+          console.error('Error parsing user data:', error);
           logout();
         }
-      } else {
-        setIsLoading(false);
       }
+      setIsLoading(false);
     };
 
     checkAuth();
   }, []);
 
-  // Validate JWT token and set user
   const validateTokenAndSetUser = (token: string) => {
     try {
-      // In a real implementation, this would decode and validate the JWT token
-      // For demonstration purposes, we'll parse the stored user data
       const storedUser = localStorage.getItem('phantUser');
       
       if (storedUser) {
@@ -73,12 +70,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (error) {
       console.error('Token validation error:', error);
       throw error;
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  // Validate token (can be called from components)
   const validateToken = () => {
     const token = localStorage.getItem('phantToken');
     if (token) {
@@ -91,18 +85,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // Login function
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     
     try {
-      // This would be replaced with an actual API call that returns a JWT token
-      // For demonstration purposes, we'll generate a mock token
-      const mockToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${btoa(
-        JSON.stringify({ email, exp: Date.now() + 24 * 60 * 60 * 1000 })
-      )}.mock-signature`;
-      
-      // Set admin status based on email for demonstration
+      // For demo purposes, set admin status based on email
       const isAdmin = email.includes('admin');
       
       const userData = {
@@ -111,7 +98,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isAdmin
       };
       
-      // Store token and user data
+      const mockToken = `mock_token_${Date.now()}`;
+      
       localStorage.setItem('phantToken', mockToken);
       localStorage.setItem('phantUser', JSON.stringify(userData));
       
@@ -124,18 +112,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // Register function
   const register = async (username: string, email: string, password: string) => {
     setIsLoading(true);
     
     try {
-      // This would be replaced with an actual API call that returns a JWT token
-      // For demonstration purposes, we'll generate a mock token
-      const mockToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${btoa(
-        JSON.stringify({ email, username, exp: Date.now() + 24 * 60 * 60 * 1000 })
-      )}.mock-signature`;
-      
-      // Set admin status based on email for demonstration
       const isAdmin = email.includes('admin');
       
       const userData = {
@@ -145,7 +125,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isAdmin
       };
       
-      // Store token and user data
+      const mockToken = `mock_token_${Date.now()}`;
+      
       localStorage.setItem('phantToken', mockToken);
       localStorage.setItem('phantUser', JSON.stringify(userData));
       
@@ -158,7 +139,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // Logout function
   const logout = () => {
     setUser(null);
     localStorage.removeItem('phantToken');

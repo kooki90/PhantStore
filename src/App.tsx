@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 import Index from "./pages/Index";
 import Products from "./pages/Products";
@@ -18,9 +19,30 @@ import RefundPolicy from "./pages/Refunds";
 import Subscriptions from "./pages/Subscriptions";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Auth from "./pages/Auth";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/Products";
 import AdminUsers from "./pages/admin/Users";
+
+const ProtectedRoute = ({ children }) => {
+  const { user } = useAuth();
+  
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+  
+  return children;
+};
+
+const AdminRoute = ({ children }) => {
+  const { user } = useAuth();
+  
+  if (!user || !user.isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+  
+  return children;
+};
 
 const App = () => (
   <CartProvider>
@@ -31,22 +53,26 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/purchases" element={<Purchases />} />
-          <Route path="/licenses" element={<Licenses />} />
-          <Route path="/subscriptions" element={<Subscriptions />} />
+          <Route path="/auth" element={<Auth />} />
+          
+          {/* Protected Routes */}
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/purchases" element={<ProtectedRoute><Purchases /></ProtectedRoute>} />
+          <Route path="/licenses" element={<ProtectedRoute><Licenses /></ProtectedRoute>} />
+          <Route path="/subscriptions" element={<ProtectedRoute><Subscriptions /></ProtectedRoute>} />
+          
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/refunds" element={<RefundPolicy />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
           
           {/* Admin Routes */}
-          <Route path="/admin" element={<Dashboard />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin" element={<AdminRoute><Dashboard /></AdminRoute>} />
+          <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
+          <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>
